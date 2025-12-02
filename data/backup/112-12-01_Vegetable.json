@@ -1,0 +1,20 @@
+[
+    {
+        "productCode": "LA1",
+        "productName": "甘藍-初秋",
+        "upperPrice": "25.0",
+        "middlePrice": "18.0",
+        "lowerPrice": "12.0",
+        "averagePrice": "18.5",
+        "transactionVolume": "15000"
+    },
+    {
+        "productCode": "SA1",
+        "productName": "蘿蔔-白玉",
+        "upperPrice": "15.0",
+        "middlePrice": "10.0",
+        "lowerPrice": "8.0",
+        "averagePrice": "11.0",
+        "transactionVolume": "8000"
+    }
+]

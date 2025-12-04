@@ -26,50 +26,86 @@ export default function ExcelImport({ onImport, onError }: ExcelImportProps) {
                 const ws = wb.Sheets[wsname];
                 const data = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
 
-                // Basic validation and parsing
-                // TAPMC Excel usually has headers. We'll look for rows with data.
-                // Expected columns: Code, Name, Upper, Middle, Lower, Avg, Volume
-                // We'll try to map by index, assuming standard format.
-
                 const parsedData: MarketData[] = [];
-                let headerFound = false;
+                let headerRowIndex = -1;
 
+                // Find header row
                 for (let i = 0; i < data.length; i++) {
                     const row = data[i];
-                    // Simple heuristic to find header or data start
-                    if (!headerFound) {
-                        // Check if this row looks like a header or data
-                        // If column 0 is "產品代號" or similar, or if it looks like a code
-                        if (row[0] && (String(row[0]).includes('產品') || String(row[0]).match(/^[A-Z0-9]+$/))) {
-                            headerFound = true;
-                            if (String(row[0]).includes('產品')) continue; // Skip header row
-                        } else {
-                            continue;
-                        }
+                    const rowStr = row.map(cell => String(cell || '').trim());
+
+                    // Check for key columns
+                    if (rowStr.some(c => c.includes('產品') || c.includes('代號'))) {
+                        headerRowIndex = i;
+                        break;
                     }
+                }
 
-                    if (row.length < 7) continue;
+                if (headerRowIndex !== -1) {
+                    const headers = data[headerRowIndex].map(h => String(h || '').trim());
 
-                    parsedData.push({
-                        productCode: String(row[0] || '').trim(),
-                        productName: String(row[1] || '').trim(),
-                        upperPrice: String(row[2] || '').trim(),
-                        middlePrice: String(row[3] || '').trim(),
-                        lowerPrice: String(row[4] || '').trim(),
-                        averagePrice: String(row[5] || '').trim(),
-                        transactionVolume: String(row[6] || '').trim(),
-                    });
+                    // Map headers to indices
+                    const codeIdx = headers.findIndex(h => h.includes('代號') || h.includes('Code'));
+                    // Fix: Ensure Name column doesn't match Code column (e.g. "產品代號" contains "產品")
+                    const nameIdx = headers.findIndex(h =>
+                        (h.includes('名稱') || h.includes('品名') || h.includes('Name') || h.includes('產品')) &&
+                        !h.includes('代號') && !h.includes('Code')
+                    );
+                    const varietyIdx = headers.findIndex(h => h.includes('品種') || h.includes('Variety'));
+                    const upperIdx = headers.findIndex(h => h.includes('上價'));
+                    const middleIdx = headers.findIndex(h => h.includes('中價'));
+                    const lowerIdx = headers.findIndex(h => h.includes('下價'));
+                    const avgIdx = headers.findIndex(h => h.includes('平均'));
+                    const volIdx = headers.findIndex(h => h.includes('量'));
+
+                    // Parse data rows
+                    for (let i = headerRowIndex + 1; i < data.length; i++) {
+                        const row = data[i];
+                        if (!row || row.length === 0) continue;
+
+                        // Skip if no code or name (empty row)
+                        if (!row[codeIdx] && !row[nameIdx]) continue;
+
+                        parsedData.push({
+                            productCode: codeIdx !== -1 ? String(row[codeIdx] || '').trim() : '',
+                            productName: nameIdx !== -1 ? String(row[nameIdx] || '').trim() : '',
+                            variety: varietyIdx !== -1 ? String(row[varietyIdx] || '').trim() : '',
+                            upperPrice: upperIdx !== -1 ? String(row[upperIdx] || '').trim() : '0',
+                            middlePrice: middleIdx !== -1 ? String(row[middleIdx] || '').trim() : '0',
+                            lowerPrice: lowerIdx !== -1 ? String(row[lowerIdx] || '').trim() : '0',
+                            averagePrice: avgIdx !== -1 ? String(row[avgIdx] || '').trim() : '0',
+                            transactionVolume: volIdx !== -1 ? String(row[volIdx] || '').trim() : '0',
+                        });
+                    }
+                } else {
+                    // Fallback to index-based if no header found (legacy support)
+                    for (let i = 0; i < data.length; i++) {
+                        const row = data[i];
+                        if (row.length < 7) continue;
+                        // Skip if first col looks like header
+                        if (String(row[0]).includes('產品')) continue;
+
+                        parsedData.push({
+                            productCode: String(row[0] || '').trim(),
+                            productName: String(row[1] || '').trim(),
+                            upperPrice: String(row[2] || '').trim(),
+                            middlePrice: String(row[3] || '').trim(),
+                            lowerPrice: String(row[4] || '').trim(),
+                            averagePrice: String(row[5] || '').trim(),
+                            transactionVolume: String(row[6] || '').trim(),
+                        });
+                    }
                 }
 
                 if (parsedData.length === 0) {
-                    onError('No valid data found in the Excel file.');
+                    onError('Excel 檔案中未發現有效資料。');
                 } else {
                     onImport(parsedData);
                 }
 
             } catch (err) {
                 console.error('Excel import error:', err);
-                onError('Failed to parse Excel file.');
+                onError('解析 Excel 檔案失敗。');
             }
         };
         reader.readAsBinaryString(file);
@@ -94,7 +130,7 @@ export default function ExcelImport({ onImport, onError }: ExcelImportProps) {
                 className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium rounded-lg shadow-sm transition-all flex items-center gap-2"
             >
                 <Upload size={18} />
-                Import Excel
+                匯入 Excel
             </button>
         </div>
     );

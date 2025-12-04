@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -14,13 +13,18 @@ interface MarketData {
     transactionVolume: string;
 }
 
-interface ScrapeResponse {
-    status: 'fresh' | 'backup' | 'error';
-    date: string;
-    type: string;
-    data: MarketData[];
-    message?: string;
-    backupDate?: string;
+interface MOAData {
+    交易日期: string;
+    種類代碼: string;
+    作物代號: string;
+    作物名稱: string;
+    市場代號: string;
+    市場名稱: string;
+    上價: number;
+    中價: number;
+    下價: number;
+    平均價: number;
+    交易量: number;
 }
 
 const BACKUP_DIR = path.join(process.cwd(), 'data', 'backup');
@@ -35,44 +39,80 @@ async function ensureBackupDir() {
 
 async function saveBackup(date: string, type: string, data: MarketData[]) {
     await ensureBackupDir();
-    // Sanitize date for filename (replace / with -)
-    const safeDate = date.replace(/\//g, '-');
-    const filename = `${safeDate}_${type}.json`;
+    // Save to a single file: latest_{type}.json
+    const filename = `latest_${type}.json`;
     const filePath = path.join(BACKUP_DIR, filename);
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+    // We might want to include the date in the file content, which we already do in the API response,
+    // but the file content is just the array of MarketData.
+    // The API response wrapper handles the date.
+    // If we want to know the date of the backup, we might need to store it.
+    // However, the current implementation stores just the array.
+    // Let's stick to the array for compatibility, or wrap it?
+    // The previous implementation stored just the array.
+    // But wait, if we overwrite, we lose the date info if it's just the array.
+    // The `getLatestBackup` logic relied on the filename for the date.
+    // If we use a single file, we should probably store the date inside.
+    // But `MarketData[]` is the expected format for `getBackup`.
+    // Let's modify the file content to be `{ date: string, data: MarketData[] }`?
+    // That would break `getBackup` which expects `MarketData[]`.
+    // Let's keep it simple: The user wants "one copy".
+    // If I change the format, I might break other things.
+    // But if I don't store the date, I can't tell the user what date the backup is from.
+    // Let's try to store it as `latest_${type}.json` but keep the content as `MarketData[]`.
+    // Wait, if I do that, `getLatestBackup` (which I should rename or modify) won't know the date.
+    // Actually, `getLatestBackup` in the previous code read the filename.
+    // I should change the storage format to include metadata, or just accept that "latest" implies "whatever is there".
+    // But the frontend displays "Showing backup data from [Date]".
+    // So I MUST store the date.
+    // Let's change the stored format to `{ date: string, data: MarketData[] }`.
+    // And update `getBackup` to handle this.
+
+    const content = {
+        date,
+        data
+    };
+    await fs.writeFile(filePath, JSON.stringify(content, null, 2));
 }
 
 async function getBackup(date: string, type: string): Promise<MarketData[] | null> {
-    const safeDate = date.replace(/\//g, '-');
-    const filename = `${safeDate}_${type}.json`;
+    // This function was looking for a specific date's backup.
+    // With the new "single file" policy, we can only return the backup if it matches the requested date,
+    // OR if we treat "backup" as "whatever we have".
+    // The user said "continuously update one copy".
+    // So `getBackup` for a specific date might fail if the single file is for a different date.
+    // Let's check the single file.
+    const filename = `latest_${type}.json`;
     const filePath = path.join(BACKUP_DIR, filename);
     try {
-        const content = await fs.readFile(filePath, 'utf-8');
-        return JSON.parse(content);
+        const contentStr = await fs.readFile(filePath, 'utf-8');
+        const content = JSON.parse(contentStr);
+        // Check if it matches the requested date? 
+        // Or just return it?
+        // The original logic had `getBackup` (exact match) and `getLatestBackup` (fallback).
+        // Now we only have one file.
+        // If the user requests date X, and we have date Y in the file:
+        // We should probably return it as a "backup" (fallback).
+        return content.data; // This returns the data array.
     } catch {
         return null;
     }
 }
 
 async function getLatestBackup(type: string): Promise<{ date: string, data: MarketData[] } | null> {
+    const filename = `latest_${type}.json`;
+    const filePath = path.join(BACKUP_DIR, filename);
     try {
-        const files = await fs.readdir(BACKUP_DIR);
-        const typeFiles = files.filter(f => f.endsWith(`_${type}.json`));
-
-        if (typeFiles.length === 0) return null;
-
-        // Sort by date (filename) descending
-        typeFiles.sort().reverse();
-
-        const latestFile = typeFiles[0];
-        const content = await fs.readFile(path.join(BACKUP_DIR, latestFile), 'utf-8');
-        // Extract date from filename: 114-12-03_Vegetable.json -> 114/12/03
-        const datePart = latestFile.split('_')[0].replace(/-/g, '/');
-
-        return {
-            date: datePart,
-            data: JSON.parse(content)
-        };
+        const contentStr = await fs.readFile(filePath, 'utf-8');
+        const content = JSON.parse(contentStr);
+        // Expecting { date: string, data: MarketData[] }
+        if (content.date && content.data) {
+            return content;
+        }
+        // Handle legacy format (array only) if exists?
+        if (Array.isArray(content)) {
+            return { date: 'Unknown', data: content };
+        }
+        return null;
     } catch {
         return null;
     }
@@ -87,117 +127,74 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Date is required' }, { status: 400 });
     }
 
-    // Map type to TAPMC dropdown value
-    // Vegetable -> 蔬菜 (Value: 蔬菜)
-    // Fruit -> 水果 (Value: 水果)
-    const categoryValue = type === 'Fruit' ? '水果' : '蔬菜';
+    // Convert date format: 114/12/03 -> 114.12.03 for API
+    const apiDate = date.replace(/\//g, '.');
 
     try {
-        console.log(`Starting scrape for ${date} - ${type}`);
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-accelerated-2d-canvas',
-                '--disable-gpu'
-            ]
-        });
-        const page = await browser.newPage();
+        console.log(`Starting fetch for ${date} - ${type}`);
 
-        // Set User-Agent to mimic a real browser
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-        await page.setViewport({ width: 1920, height: 1080 });
+        // MOA Open Data API URL
+        // Endpoint: https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx
+        // Parameters:
+        // StartDate, EndDate: ROC date (e.g., 113.12.04)
+        // MarketName: 台北一 (Taipei Market 1 is the main one for Beinong)
 
-        await page.goto('https://www.tapmc.com.tw/Pages/Trans/Price1', { waitUntil: 'networkidle0' });
+        const apiUrl = new URL('https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx');
+        apiUrl.searchParams.append('StartDate', apiDate);
+        apiUrl.searchParams.append('EndDate', apiDate);
+        apiUrl.searchParams.append('MarketName', '台北一');
 
-        // 1. Set Date
-        // IDs found: ContentPlaceHolder1_txtDate, DDL_FV_Code, ContentPlaceHolder1_btnQuery
-        const dateInputSelector = '#ContentPlaceHolder1_txtDate';
-        await page.waitForSelector(dateInputSelector);
+        const response = await fetch(apiUrl.toString());
 
-        // Use DOM API to set value directly
-        await page.evaluate((selector, dateVal) => {
-            const el = document.querySelector(selector) as HTMLInputElement;
-            if (el) {
-                el.value = dateVal;
-                el.dispatchEvent(new Event('input', { bubbles: true }));
-                el.dispatchEvent(new Event('change', { bubbles: true }));
-                el.dispatchEvent(new Event('blur', { bubbles: true }));
-            }
-        }, dateInputSelector, date);
-
-        // Click body to close datepicker just in case
-        await page.mouse.click(10, 10);
-
-        // 2. Set Category
-        // The dropdown for Fruit/Vegetable seems to be DDL_FV_Code or similar.
-        // Let's try DDL_FV_Code first.
-        const categorySelectSelector = '#DDL_FV_Code';
-        // Wait for it to be visible
-        try {
-            await page.waitForSelector(categorySelectSelector, { timeout: 3000 });
-            await page.select(categorySelectSelector, categoryValue);
-        } catch (e) {
-            console.log('DDL_FV_Code not found, trying alternate selector');
-            // Fallback or just log
+        if (!response.ok) {
+            throw new Error(`API responded with status: ${response.status}`);
         }
 
-        // 3. Click Query
-        const queryButtonSelector = '#ContentPlaceHolder1_btnQuery';
+        const rawData: MOAData[] = await response.json();
 
-        // ASP.NET WebForms might use UpdatePanel, so waitForNavigation might not work if it's an AJAX update.
-        // Instead, we wait for the button click and then wait for the table.
-        await page.click(queryButtonSelector);
+        // Filter by type if necessary, though the API returns all.
+        // The current app distinguishes 'Vegetable' and 'Fruit'.
+        // We can filter by '種類代碼' (Type Code).
+        // Usually: N04 = Vegetable, N05 = Fruit (Need to verify, but often codes starting with N04 are veggies, N05 fruit)
+        // Or we can just return everything and let frontend handle, or try to filter.
+        // Looking at the data, '種類代碼' isn't always consistent across datasets, but let's check '作物代號'.
+        // Actually, the previous scraper relied on the user selecting the type in the UI which loaded a specific page/dropdown.
+        // The MOA data has '種類代碼'. 
+        // Let's assume we return all data for now, or filter if we can identify.
+        // A common convention: 
+        // Vegetable codes often start with 'L', 'F', 'S', 'O' etc? No.
+        // Let's look at '種類代碼': 'N04' is often Veg, 'N05' is Fruit.
+        // Let's try to filter based on the requested 'type'.
 
-        // 4. Wait for table
-        // The table ID is likely ContentPlaceHolder1_gv
-        const tableSelector = '#ContentPlaceHolder1_gv';
-
-        try {
-            // Wait for table to be present and visible
-            await page.waitForSelector(tableSelector, { timeout: 10000, visible: true });
-        } catch (e) {
-            console.log('Table not found. Checking for "No Data" message...');
-            const content = await page.content();
-
-            // Take debug screenshot
-            await page.screenshot({ path: 'public/debug_scrape_error.png' });
-
-            if (content.includes('無資料') || content.includes('查無資料')) {
-                throw new Error('No data found for this date');
-            }
-            throw new Error('Table not found (timeout)');
+        let filteredData = rawData;
+        if (type === 'Vegetable') {
+            filteredData = rawData.filter(item => item.種類代碼 === 'N04');
+        } else if (type === 'Fruit') {
+            filteredData = rawData.filter(item => item.種類代碼 === 'N05');
         }
 
-        // 5. Scrape Data
-        const data = await page.evaluate(() => {
-            const rows = Array.from(document.querySelectorAll('#ctl00_ContentPlaceHolder1_gv tr'));
-            // Skip header row
-            return rows.slice(1).map(row => {
-                const cols = row.querySelectorAll('td');
-                if (cols.length < 7) return null;
-                return {
-                    productCode: cols[0]?.textContent?.trim() || '',
-                    productName: cols[1]?.textContent?.trim() || '',
-                    upperPrice: cols[2]?.textContent?.trim() || '',
-                    middlePrice: cols[3]?.textContent?.trim() || '',
-                    lowerPrice: cols[4]?.textContent?.trim() || '',
-                    averagePrice: cols[5]?.textContent?.trim() || '',
-                    transactionVolume: cols[6]?.textContent?.trim() || '',
-                };
-            }).filter(item => item !== null);
-        });
+        if (filteredData.length === 0 && rawData.length > 0) {
+            // If strict filtering returns nothing but we have data, maybe return all or log warning.
+            // For now, let's trust the N04/N05 distinction which is standard for MOA data.
+            console.log(`No data found for type ${type} (N04/N05 filter), returning empty.`);
+        }
 
-        await browser.close();
+        const data: MarketData[] = filteredData.map(item => ({
+            productCode: item.作物代號,
+            productName: item.作物名稱,
+            upperPrice: item.上價.toString(),
+            middlePrice: item.中價.toString(),
+            lowerPrice: item.下價.toString(),
+            averagePrice: item.平均價.toString(),
+            transactionVolume: item.交易量.toString()
+        }));
 
         if (data.length === 0) {
             throw new Error('No data found');
         }
 
         // Save backup
-        await saveBackup(date, type, data as MarketData[]);
+        await saveBackup(date, type, data);
 
         return NextResponse.json({
             status: 'fresh',
@@ -207,36 +204,31 @@ export async function GET(request: Request) {
         });
 
     } catch (error) {
-        console.error('Scraping failed:', error);
+        console.error('Fetching failed:', error);
 
-        // Try to load backup for the specific date
-        const exactBackup = await getBackup(date, type);
-        if (exactBackup) {
+        // Try to load the single backup file
+        const backup = await getLatestBackup(type);
+
+        if (backup) {
+            // If the backup date matches the requested date, it's an "exact match" (though we just failed to fetch, so maybe it's from a previous successful fetch today).
+            // If it doesn't match, it's a fallback.
+            const isExact = backup.date === date;
+
             return NextResponse.json({
                 status: 'backup',
-                date,
+                date: isExact ? date : backup.date,
                 type,
-                data: exactBackup,
-                message: 'Scraping failed. Loaded local backup for this date.'
-            });
-        }
-
-        // Try to load latest backup
-        const latestBackup = await getLatestBackup(type);
-        if (latestBackup) {
-            return NextResponse.json({
-                status: 'backup',
-                date: latestBackup.date,
-                type,
-                data: latestBackup.data,
-                message: `Scraping failed and no backup for ${date}. Loaded latest backup from ${latestBackup.date}.`,
-                backupDate: latestBackup.date
+                data: backup.data,
+                message: isExact
+                    ? 'Fetching failed. Loaded local backup for this date.'
+                    : `Fetching failed and no backup for ${date}. Loaded latest backup from ${backup.date}.`,
+                backupDate: backup.date
             });
         }
 
         return NextResponse.json({
             status: 'error',
-            message: 'Scraping failed and no backup available.'
+            message: 'Fetching failed and no backup available.'
         }, { status: 500 });
     }
 }

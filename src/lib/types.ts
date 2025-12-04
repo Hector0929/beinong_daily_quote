@@ -6,6 +6,13 @@ export interface MarketData {
     lowerPrice: string;
     averagePrice: string;
     transactionVolume: string;
+    // New fields for Delivery Note
+    quantity?: string;
+    unit?: string;
+    salesPrice?: string;
+    subtotal?: string;
+    remarks?: string;
+    variety?: string; // New field for Variety
 }
 
 export interface ScrapeResponse {

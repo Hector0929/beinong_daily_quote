@@ -49,10 +49,18 @@ export default function Home() {
   React.useEffect(() => {
     const loadMasterList = async () => {
       try {
-        // Try to fetch latest backups for both types
+        // Calculate today's date in TW format
+        const today = new Date();
+        const year = today.getFullYear() - 1911;
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const twDate = `${year}/${month}/${day}`;
+
+        // Try to fetch data for today for both types
+        // If today's data is not available, the API will fallback to the latest backup
         const [vegRes, fruitRes] = await Promise.all([
-          fetch('/api/scrape?type=Vegetable&date=latest'), // We need to support 'latest' or just rely on backup logic
-          fetch('/api/scrape?type=Fruit&date=latest')
+          fetch(`/api/scrape?type=Vegetable&date=${encodeURIComponent(twDate)}`),
+          fetch(`/api/scrape?type=Fruit&date=${encodeURIComponent(twDate)}`)
         ]);
 
         let combinedList: MarketData[] = [];

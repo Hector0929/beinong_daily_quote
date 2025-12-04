@@ -147,10 +147,24 @@ export default function QuoteTable({ initialData, onDataChange, date, productMas
         }
     };
 
-    // Calculate Total
+    // Calculate Total Amount
     const totalAmount = data.reduce((sum, item) => {
         const sub = parseFloat(item.subtotal || '0');
         return sum + (isNaN(sub) ? 0 : sub);
+    }, 0);
+
+    // Calculate Total Weight (in KG)
+    const totalWeight = data.reduce((sum, item) => {
+        const qty = parseFloat(item.quantity || '0');
+        if (isNaN(qty)) return sum;
+
+        let factor = 1;
+        switch (item.unit) {
+            case '公克': factor = 0.001; break;
+            case '台斤': factor = 0.6; break;
+            case '公斤': default: factor = 1; break;
+        }
+        return sum + (qty * factor);
     }, 0);
 
     const inputClass = "w-full bg-white border border-gray-400 rounded px-2 py-1 focus:ring-2 focus:ring-emerald-500 outline-none text-center font-medium";
@@ -353,7 +367,9 @@ export default function QuoteTable({ initialData, onDataChange, date, productMas
                 <tfoot>
                     <tr className="border-t-4 border-black font-bold text-xl">
                         <td colSpan={2} className="py-4">小計</td>
-                        <td colSpan={3}></td>
+                        <td className="text-right pr-2 text-lg align-middle">總重</td>
+                        <td className="text-center text-lg align-middle">{totalWeight.toFixed(3)} 公斤</td>
+                        <td className="text-right"></td>
                         <td className="text-right pr-2">{totalAmount.toFixed(2)}</td>
                         <td colSpan={2}></td>
                     </tr>

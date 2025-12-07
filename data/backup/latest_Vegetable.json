@@ -14562,6 +14562,663 @@
       "lowerPrice": "10",
       "averagePrice": "10",
       "transactionVolume": "8699"
+    },
+    {
+      "productCode": "FA1",
+      "productName": "黃秋葵",
+      "upperPrice": "60",
+      "middlePrice": "32.6",
+      "lowerPrice": "30",
+      "averagePrice": "37.5",
+      "transactionVolume": "68.5"
+    },
+    {
+      "productCode": "FB1",
+      "productName": "花椰菜-青梗",
+      "upperPrice": "35",
+      "middlePrice": "29.9",
+      "lowerPrice": "25",
+      "averagePrice": "29.9",
+      "transactionVolume": "73"
+    },
+    {
+      "productCode": "FC1",
+      "productName": "胡瓜-黑刺",
+      "upperPrice": "40",
+      "middlePrice": "40",
+      "lowerPrice": "27.8",
+      "averagePrice": "37.6",
+      "transactionVolume": "185"
+    },
+    {
+      "productCode": "FC2",
+      "productName": "胡瓜-改良種",
+      "upperPrice": "45",
+      "middlePrice": "37.6",
+      "lowerPrice": "19.4",
+      "averagePrice": "35.4",
+      "transactionVolume": "542.5"
+    },
+    {
+      "productCode": "FD1",
+      "productName": "花胡瓜",
+      "upperPrice": "77.2",
+      "middlePrice": "58.8",
+      "lowerPrice": "32.7",
+      "averagePrice": "57.3",
+      "transactionVolume": "925"
+    },
+    {
+      "productCode": "FF1",
+      "productName": "絲瓜",
+      "upperPrice": "42.3",
+      "middlePrice": "34.3",
+      "lowerPrice": "16.3",
+      "averagePrice": "32.3",
+      "transactionVolume": "280"
+    },
+    {
+      "productCode": "FG0",
+      "productName": "苦瓜-其他",
+      "upperPrice": "210",
+      "middlePrice": "210",
+      "lowerPrice": "210",
+      "averagePrice": "210",
+      "transactionVolume": "20"
+    },
+    {
+      "productCode": "FG2",
+      "productName": "苦瓜-青大米",
+      "upperPrice": "50",
+      "middlePrice": "50",
+      "lowerPrice": "50",
+      "averagePrice": "50",
+      "transactionVolume": "32"
+    },
+    {
+      "productCode": "FG4",
+      "productName": "苦瓜-翠綠",
+      "upperPrice": "60",
+      "middlePrice": "60",
+      "lowerPrice": "60",
+      "averagePrice": "60",
+      "transactionVolume": "68"
+    },
+    {
+      "productCode": "FI2",
+      "productName": "茄子-麻荸茄",
+      "upperPrice": "39.5",
+      "middlePrice": "36.2",
+      "lowerPrice": "20.9",
+      "averagePrice": "33.8",
+      "transactionVolume": "396"
+    },
+    {
+      "productCode": "FJ3",
+      "productName": "番茄-牛番茄",
+      "upperPrice": "120",
+      "middlePrice": "108.3",
+      "lowerPrice": "95",
+      "averagePrice": "108",
+      "transactionVolume": "220"
+    },
+    {
+      "productCode": "FK4",
+      "productName": "甜椒-彩色種",
+      "upperPrice": "86.7",
+      "middlePrice": "66.8",
+      "lowerPrice": "60.9",
+      "averagePrice": "69.6",
+      "transactionVolume": "140"
+    },
+    {
+      "productCode": "FK5",
+      "productName": "甜椒-青椒",
+      "upperPrice": "48",
+      "middlePrice": "48",
+      "lowerPrice": "48",
+      "averagePrice": "48",
+      "transactionVolume": "90"
+    },
+    {
+      "productCode": "FL2",
+      "productName": "豌豆-紅花",
+      "upperPrice": "160",
+      "middlePrice": "160",
+      "lowerPrice": "160",
+      "averagePrice": "160",
+      "transactionVolume": "4"
+    },
+    {
+      "productCode": "FN1",
+      "productName": "敏豆-白豆",
+      "upperPrice": "118.9",
+      "middlePrice": "100.8",
+      "lowerPrice": "62.1",
+      "averagePrice": "96.7",
+      "transactionVolume": "118"
+    },
+    {
+      "productCode": "FN3",
+      "productName": "敏豆-粉豆",
+      "upperPrice": "104",
+      "middlePrice": "96.3",
+      "lowerPrice": "86",
+      "averagePrice": "95.8",
+      "transactionVolume": "110"
+    },
+    {
+      "productCode": "FN4",
+      "productName": "敏豆-翼豆",
+      "upperPrice": "120",
+      "middlePrice": "115.3",
+      "lowerPrice": "35",
+      "averagePrice": "100.2",
+      "transactionVolume": "30"
+    },
+    {
+      "productCode": "FN5",
+      "productName": "敏豆-醜豆",
+      "upperPrice": "94.2",
+      "middlePrice": "87.3",
+      "lowerPrice": "85",
+      "averagePrice": "88.2",
+      "transactionVolume": "108"
+    },
+    {
+      "productCode": "FR2",
+      "productName": "青花苔-青花筍",
+      "upperPrice": "100",
+      "middlePrice": "97.5",
+      "lowerPrice": "60",
+      "averagePrice": "90.5",
+      "transactionVolume": "42"
+    },
+    {
+      "productCode": "FT1",
+      "productName": "南瓜-木瓜形",
+      "upperPrice": "22.6",
+      "middlePrice": "15.6",
+      "lowerPrice": "6.9",
+      "averagePrice": "15.3",
+      "transactionVolume": "1592"
+    },
+    {
+      "productCode": "FT2",
+      "productName": "南瓜-圓形",
+      "upperPrice": "10",
+      "middlePrice": "9",
+      "lowerPrice": "8.3",
+      "averagePrice": "9.1",
+      "transactionVolume": "607"
+    },
+    {
+      "productCode": "FT5",
+      "productName": "南瓜-青如意",
+      "upperPrice": "89.5",
+      "middlePrice": "52.2",
+      "lowerPrice": "28.2",
+      "averagePrice": "54.9",
+      "transactionVolume": "1178"
+    },
+    {
+      "productCode": "FT7",
+      "productName": "南瓜-栗子",
+      "upperPrice": "68",
+      "middlePrice": "68",
+      "lowerPrice": "68",
+      "averagePrice": "68",
+      "transactionVolume": "220"
+    },
+    {
+      "productCode": "FU2",
+      "productName": "隼人瓜-瓜苗",
+      "upperPrice": "64.4",
+      "middlePrice": "54.1",
+      "lowerPrice": "48",
+      "averagePrice": "55",
+      "transactionVolume": "161"
+    },
+    {
+      "productCode": "FV0",
+      "productName": "辣椒-其他",
+      "upperPrice": "165",
+      "middlePrice": "165",
+      "lowerPrice": "165",
+      "averagePrice": "165",
+      "transactionVolume": "6"
+    },
+    {
+      "productCode": "FV1",
+      "productName": "辣椒-紅小",
+      "upperPrice": "185",
+      "middlePrice": "162",
+      "lowerPrice": "110",
+      "averagePrice": "156.2",
+      "transactionVolume": "49"
+    },
+    {
+      "productCode": "FV2",
+      "productName": "辣椒-青小",
+      "upperPrice": "85",
+      "middlePrice": "85",
+      "lowerPrice": "85",
+      "averagePrice": "85",
+      "transactionVolume": "7"
+    },
+    {
+      "productCode": "FV4",
+      "productName": "辣椒-朝天椒",
+      "upperPrice": "160",
+      "middlePrice": "160",
+      "lowerPrice": "160",
+      "averagePrice": "160",
+      "transactionVolume": "22"
+    },
+    {
+      "productCode": "FV6",
+      "productName": "辣椒-糯米椒",
+      "upperPrice": "110",
+      "middlePrice": "103.6",
+      "lowerPrice": "78.3",
+      "averagePrice": "99.8",
+      "transactionVolume": "119.5"
+    },
+    {
+      "productCode": "FW2",
+      "productName": "洛神花",
+      "upperPrice": "25",
+      "middlePrice": "25",
+      "lowerPrice": "25",
+      "averagePrice": "25",
+      "transactionVolume": "10"
+    },
+    {
+      "productCode": "FY2",
+      "productName": "玉米-甜硬殼",
+      "upperPrice": "51",
+      "middlePrice": "47.6",
+      "lowerPrice": "28",
+      "averagePrice": "44.3",
+      "transactionVolume": "69"
+    },
+    {
+      "productCode": "FY4",
+      "productName": "玉米-玉米筍",
+      "upperPrice": "45",
+      "middlePrice": "45",
+      "lowerPrice": "45",
+      "averagePrice": "45",
+      "transactionVolume": "22"
+    },
+    {
+      "productCode": "FY5",
+      "productName": "玉米-糯米黑",
+      "upperPrice": "24",
+      "middlePrice": "24",
+      "lowerPrice": "24",
+      "averagePrice": "24",
+      "transactionVolume": "28"
+    },
+    {
+      "productCode": "FY6",
+      "productName": "玉米-甜軟殼",
+      "upperPrice": "55",
+      "middlePrice": "55",
+      "lowerPrice": "50.7",
+      "averagePrice": "54.1",
+      "transactionVolume": "515"
+    },
+    {
+      "productCode": "FZ1",
+      "productName": "落花生-生",
+      "upperPrice": "110",
+      "middlePrice": "64.4",
+      "lowerPrice": "30",
+      "averagePrice": "66.7",
+      "transactionVolume": "206.5"
+    },
+    {
+      "productCode": "LA0",
+      "productName": "甘藍-其他",
+      "upperPrice": "19.6",
+      "middlePrice": "16.9",
+      "lowerPrice": "15",
+      "averagePrice": "17",
+      "transactionVolume": "324"
+    },
+    {
+      "productCode": "LA1",
+      "productName": "甘藍-初秋",
+      "upperPrice": "28.6",
+      "middlePrice": "15.3",
+      "lowerPrice": "6.1",
+      "averagePrice": "16.1",
+      "transactionVolume": "2065"
+    },
+    {
+      "productCode": "LA2",
+      "productName": "甘藍-改良種",
+      "upperPrice": "19.6",
+      "middlePrice": "18.3",
+      "lowerPrice": "16.8",
+      "averagePrice": "18.3",
+      "transactionVolume": "1065"
+    },
+    {
+      "productCode": "LA6",
+      "productName": "甘藍-甘藍芽",
+      "upperPrice": "56.2",
+      "middlePrice": "46",
+      "lowerPrice": "46",
+      "averagePrice": "48",
+      "transactionVolume": "82"
+    },
+    {
+      "productCode": "LA7",
+      "productName": "甘藍-改良尖",
+      "upperPrice": "33.7",
+      "middlePrice": "31.1",
+      "lowerPrice": "19.4",
+      "averagePrice": "29.3",
+      "transactionVolume": "2384.5"
+    },
+    {
+      "productCode": "LC2",
+      "productName": "包心白-成功白",
+      "upperPrice": "45.5",
+      "middlePrice": "32.8",
+      "lowerPrice": "12.6",
+      "averagePrice": "31.3",
+      "transactionVolume": "1411.5"
+    },
+    {
+      "productCode": "LE2",
+      "productName": "皇宮菜-大葉",
+      "upperPrice": "40",
+      "middlePrice": "33.8",
+      "lowerPrice": "27",
+      "averagePrice": "33.7",
+      "transactionVolume": "274"
+    },
+    {
+      "productCode": "LF2",
+      "productName": "蕹菜-小葉",
+      "upperPrice": "14",
+      "middlePrice": "14",
+      "lowerPrice": "14",
+      "averagePrice": "14",
+      "transactionVolume": "5.5"
+    },
+    {
+      "productCode": "LG5",
+      "productName": "芹菜-芹菜管",
+      "upperPrice": "55",
+      "middlePrice": "55",
+      "lowerPrice": "55",
+      "averagePrice": "55",
+      "transactionVolume": "24"
+    },
+    {
+      "productCode": "LI3",
+      "productName": "萵苣菜-本島圓葉",
+      "upperPrice": "36",
+      "middlePrice": "36",
+      "lowerPrice": "36",
+      "averagePrice": "36",
+      "transactionVolume": "52"
+    },
+    {
+      "productCode": "LI5",
+      "productName": "萵苣菜-油麥菜",
+      "upperPrice": "20",
+      "middlePrice": "20",
+      "lowerPrice": "20",
+      "averagePrice": "20",
+      "transactionVolume": "77"
+    },
+    {
+      "productCode": "LJ3",
+      "productName": "芥菜-大芥菜",
+      "upperPrice": "21.3",
+      "middlePrice": "19.4",
+      "lowerPrice": "13.3",
+      "averagePrice": "18.5",
+      "transactionVolume": "932"
+    },
+    {
+      "productCode": "LJ4",
+      "productName": "芥菜-小芥菜",
+      "upperPrice": "39",
+      "middlePrice": "39",
+      "lowerPrice": "39",
+      "averagePrice": "39",
+      "transactionVolume": "11"
+    },
+    {
+      "productCode": "LJ5",
+      "productName": "芥菜-翡翠娃娃菜",
+      "upperPrice": "30",
+      "middlePrice": "27.3",
+      "lowerPrice": "27",
+      "averagePrice": "27.8",
+      "transactionVolume": "80"
+    },
+    {
+      "productCode": "LK3",
+      "productName": "芥藍菜-芥藍芽",
+      "upperPrice": "36.8",
+      "middlePrice": "30.3",
+      "lowerPrice": "30",
+      "averagePrice": "31.6",
+      "transactionVolume": "380"
+    },
+    {
+      "productCode": "LP1",
+      "productName": "芫荽",
+      "upperPrice": "140",
+      "middlePrice": "140",
+      "lowerPrice": "140",
+      "averagePrice": "140",
+      "transactionVolume": "8"
+    },
+    {
+      "productCode": "LQ1",
+      "productName": "紅鳳菜-紅鳳菜",
+      "upperPrice": "60",
+      "middlePrice": "35.7",
+      "lowerPrice": "30",
+      "averagePrice": "39.4",
+      "transactionVolume": "97.5"
+    },
+    {
+      "productCode": "LX1",
+      "productName": "蕨菜-過貓",
+      "upperPrice": "36",
+      "middlePrice": "36",
+      "lowerPrice": "36",
+      "averagePrice": "36",
+      "transactionVolume": "16"
+    },
+    {
+      "productCode": "OA2",
+      "productName": "鹹菜-帶葉",
+      "upperPrice": "27.7",
+      "middlePrice": "25.2",
+      "lowerPrice": "25",
+      "averagePrice": "25.7",
+      "transactionVolume": "450"
+    },
+    {
+      "productCode": "OX1",
+      "productName": "其他",
+      "upperPrice": "98.7",
+      "middlePrice": "16.2",
+      "lowerPrice": "6.3",
+      "averagePrice": "30.7",
+      "transactionVolume": "885"
+    },
+    {
+      "productCode": "SA1",
+      "productName": "蘿蔔-梅花",
+      "upperPrice": "19.8",
+      "middlePrice": "12.7",
+      "lowerPrice": "6",
+      "averagePrice": "12.8",
+      "transactionVolume": "2424"
+    },
+    {
+      "productCode": "SB2",
+      "productName": "胡蘿蔔-清洗",
+      "upperPrice": "26",
+      "middlePrice": "26",
+      "lowerPrice": "26",
+      "averagePrice": "26",
+      "transactionVolume": "320"
+    },
+    {
+      "productCode": "SC9",
+      "productName": "馬鈴薯-進口",
+      "upperPrice": "32",
+      "middlePrice": "30.2",
+      "lowerPrice": "30",
+      "averagePrice": "30.5",
+      "transactionVolume": "80"
+    },
+    {
+      "productCode": "SE6",
+      "productName": "青蔥-粉蔥",
+      "upperPrice": "70",
+      "middlePrice": "68.2",
+      "lowerPrice": "63",
+      "averagePrice": "67.5",
+      "transactionVolume": "24"
+    },
+    {
+      "productCode": "SF1",
+      "productName": "韭菜-白頭",
+      "upperPrice": "69.4",
+      "middlePrice": "52.5",
+      "lowerPrice": "41",
+      "averagePrice": "53.6",
+      "transactionVolume": "128"
+    },
+    {
+      "productCode": "SG2",
+      "productName": "大蒜-軟梗",
+      "upperPrice": "105",
+      "middlePrice": "102.6",
+      "lowerPrice": "90",
+      "averagePrice": "100.6",
+      "transactionVolume": "170"
+    },
+    {
+      "productCode": "SI1",
+      "productName": "萵苣莖",
+      "upperPrice": "39",
+      "middlePrice": "34.2",
+      "lowerPrice": "15.9",
+      "averagePrice": "31.5",
+      "transactionVolume": "305.5"
+    },
+    {
+      "productCode": "SJ2",
+      "productName": "芋-檳榔心芋",
+      "upperPrice": "50.5",
+      "middlePrice": "37",
+      "lowerPrice": "25.5",
+      "averagePrice": "37.4",
+      "transactionVolume": "1473.5"
+    },
+    {
+      "productCode": "SJ4",
+      "productName": "芋-芋莖",
+      "upperPrice": "21",
+      "middlePrice": "21",
+      "lowerPrice": "21",
+      "averagePrice": "21",
+      "transactionVolume": "19"
+    },
+    {
+      "productCode": "SN1",
+      "productName": "蓮藕",
+      "upperPrice": "35",
+      "middlePrice": "32.5",
+      "lowerPrice": "30",
+      "averagePrice": "32.5",
+      "transactionVolume": "120"
+    },
+    {
+      "productCode": "SO0",
+      "productName": "甘薯-其他",
+      "upperPrice": "22",
+      "middlePrice": "22",
+      "lowerPrice": "22",
+      "averagePrice": "22",
+      "transactionVolume": "69"
+    },
+    {
+      "productCode": "SO1",
+      "productName": "甘薯-臺農57號",
+      "upperPrice": "24.4",
+      "middlePrice": "22.3",
+      "lowerPrice": "21",
+      "averagePrice": "22.4",
+      "transactionVolume": "413"
+    },
+    {
+      "productCode": "SO3",
+      "productName": "甘薯-臺農66號",
+      "upperPrice": "29.7",
+      "middlePrice": "11.8",
+      "lowerPrice": "7.5",
+      "averagePrice": "14.5",
+      "transactionVolume": "354"
+    },
+    {
+      "productCode": "SP1",
+      "productName": "薑-老薑",
+      "upperPrice": "121.6",
+      "middlePrice": "105.2",
+      "lowerPrice": "80",
+      "averagePrice": "103.4",
+      "transactionVolume": "224"
+    },
+    {
+      "productCode": "SP2",
+      "productName": "薑-嫩薑",
+      "upperPrice": "40",
+      "middlePrice": "39.9",
+      "lowerPrice": "38",
+      "averagePrice": "39.6",
+      "transactionVolume": "187"
+    },
+    {
+      "productCode": "SQ1",
+      "productName": "茭白筍-帶殼",
+      "upperPrice": "80",
+      "middlePrice": "80",
+      "lowerPrice": "66.8",
+      "averagePrice": "77.4",
+      "transactionVolume": "37"
+    },
+    {
+      "productCode": "SU2",
+      "productName": "薯蕷-白薯蕷",
+      "upperPrice": "62.8",
+      "middlePrice": "37.1",
+      "lowerPrice": "21.6",
+      "averagePrice": "39.1",
+      "transactionVolume": "486"
+    },
+    {
+      "productCode": "SZ7",
+      "productName": "晚香玉筍",
+      "upperPrice": "145",
+      "middlePrice": "145",
+      "lowerPrice": "145",
+      "averagePrice": "145",
+      "transactionVolume": "2.5"
     }
   ]
 }
